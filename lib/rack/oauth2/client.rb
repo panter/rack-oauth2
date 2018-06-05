@@ -112,12 +112,16 @@ module Rack
             client_secret: secret
           )
         end
+
         handle_response do
-          Rack::OAuth2.http_client.post(
+          res = Rack::OAuth2.http_client.post(
             absolute_uri_for(token_endpoint),
             Util.compact_hash(params),
             headers
           )
+          Rack::OAuth2.logger.info "Params: #{Util.compact_hash(params).inspect}"
+          Rack::OAuth2.logger.info "Response: #{res.inspect}"
+          res
         end
       end
 
